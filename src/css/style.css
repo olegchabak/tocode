@@ -1,0 +1,11 @@
+body{
+	background-color: #dbdbdb;
+}
+.wrapper{
+	display: flex;
+	justify-content: center;
+}
+
+h1 {
+	color: cyan;
+}
