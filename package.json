@@ -1,0 +1,21 @@
+{
+	"name": "tocode",
+	"version": "1.0.0",
+	"description": "https://www.youtube.com/watch?v=JcKRovPhGo8&list=PLkCrmfIT6LBQWN02hNj6r1daz7965GxsV",
+	"main": "index.js",
+	"scripts": {
+		"dev": "webpack-dev-server --open --mode development",
+		"build": "webpack --mode production"
+	},
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@babel/core": "^7.7.2",
+		"@babel/preset-env": "^7.7.1",
+		"babel-loader": "^8.0.6",
+		"path": "^0.12.7",
+		"webpack": "^4.41.2",
+		"webpack-cli": "^3.3.10",
+		"webpack-dev-server": "^3.9.0"
+	}
+}
