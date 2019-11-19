@@ -21,6 +21,8 @@ module.exports = {
 	entry: {
 		//читать как app: "./src/" - webpack поймет что обращение к index.js
 		app: PATHS.src,
+		lk: `${PATHS.src}/lk.js`,
+		// еще можно просто большой файл скрипта разбить, еще лучше асинхронно
 	},
 	output: {
 		// filename: "[name].js", <-можно так, будет складывать в дист
