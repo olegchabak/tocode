@@ -16,7 +16,8 @@
 	<h2>Section 2</h2>
 </section>
 <section id="app">
-	<example-component></example-component>
+	<button @click="showComponent = !showComponent">Show Component</button>
+	<example-component  v-if="showComponent"></example-component>
 </section>
 </body>
 </html>
