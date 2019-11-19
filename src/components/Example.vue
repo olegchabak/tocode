@@ -9,7 +9,7 @@
 	export default {
 		data() {
 			return {
-				msg: this.$store.getters.getMsg,
+				msg: this.$store.getters.getMsg, //
 			}
 		}
 	}

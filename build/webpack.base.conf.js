@@ -25,7 +25,7 @@ module.exports = {
 	output: {
 		// filename: "[name].js", <-можно так, будет складывать в дист
 		// читать: filename: 'assets/js/[name].js'
-		filename: `${PATHS.assets}js/[name].js`,
+		filename: `${PATHS.assets}js/[name].[hash:4].js`,
 		path: PATHS.dist,
 		publicPath: "/"
 	},
@@ -117,7 +117,7 @@ module.exports = {
 	},
 	plugins: [
 		new MiniCssExtractPlugin({
-			filename: `${PATHS.assets}css/[name].css`, // dist/assets/css/[name].css
+			filename: `${PATHS.assets}css/[name].[hash:4].css`, // dist/assets/css/[name].css
 			//chunkFilename: '[id].css'
 		}),
 		new HtmlWebpackPlugin({
@@ -131,5 +131,21 @@ module.exports = {
 			{ from: `${PATHS.src}/static`, to: '' },
 		]),
 		new VueLoaderPlugin(),
-	]
+	],
+	optimization: {
+		// разбивка на чанки
+		splitChunks: {
+			// определение чанков
+			cacheGroups: {
+				// определение чанка с либами
+				vendor: {
+					name: 'vendors',
+					// забирать из node_modules
+					test: /node_modules/,
+					chunks: "all",
+					enforce: true
+				}
+			}
+		}
+	}
 };
