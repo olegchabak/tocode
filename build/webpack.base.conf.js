@@ -2,6 +2,8 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+// Плагин необходим! Он отвечает за клонирование любых других правил, которые вы определили, чтобы применить их к соответствующим языковым блокам в файлах .vue. Например, если у вас есть правило, соответствующее файлам /\.js$/, оно будет применяться к секциям <script> в файлах .vue.
+const { VueLoaderPlugin } = require('vue-loader/lib/plugin');
 
 // чтоб менять пути в одном месте
 const PATHS = {
@@ -29,10 +31,22 @@ module.exports = {
 	},
 	module: {
 		rules: [
+			// это будет применяться к файлам `.js`
+			// А ТАКЖЕ к секциям `<script>` внутри файлов `.vue`
 			{
 				test: /\.js$/,
 				loader: 'babel-loader',
 				exclude: '/node_modules/'
+			},
+			{
+				test: /\.vue$/,
+				loader: 'vue-loader',
+				// for compile scss
+				options: {
+					loader:{
+						scss: 'vue-style-loader!css-loader!sass-loader'
+					}
+				}
 			},
 			{
 				test: /\.(png|jpg|jpeg|gif|svg)$/,
@@ -41,6 +55,8 @@ module.exports = {
 					name: '[name].[ext]'
 				}
 			},
+			// это будет применяться к файлам `.css`
+			// А ТАКЖЕ к секциям `<style>` внутри файлов `.vue`
 			{
 				test: /\.css$/,
 				use: [
@@ -108,5 +124,6 @@ module.exports = {
 			{ from: `${PATHS.src}/img`, to: `${PATHS.assets}img` },
 			{ from: `${PATHS.src}/static`, to: '' },
 		]),
+		new VueLoaderPlugin(),
 	]
 };
