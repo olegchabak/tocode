@@ -51,11 +51,24 @@ module.exports = {
 				}
 			},
 			{
-				test: /\.(png|jpg|jpeg|gif|svg)$/,
-				loader: 'file-loader',
-				options: {
-					name: '[name].[ext]'
+				test: /\.(png|jpg|gif)$/,
+				use: {
+					loader: 'url-loader',
+					options: {
+						limit: 15000,
+					}
 				}
+			},
+			{
+				test: /\.svg$/,
+				use: [
+					{
+						loader: 'file-loader',
+						options: {
+							name: '[name].[ext]',
+						}
+					}
+				],
 			},
 			// это будет применяться к файлам `.css`
 			// А ТАКЖЕ к секциям `<style>` внутри файлов `.vue`
@@ -74,9 +87,9 @@ module.exports = {
 						options: {
 							sourceMap: true,
 							// файл с настройками плагина
-							config: {
-								path: `${PATHS.src}/js/postcss.config.js`
-							}
+							// config: {
+							// 	path: `${PATHS.src}/js/postcss.config.js`
+							// }
 						}
 					}
 				],
@@ -96,9 +109,9 @@ module.exports = {
 						options: {
 							sourceMap: true,
 							// файл с настройками плагина
-							config: {
-								path: `${PATHS.src}/js/postcss.config.js`
-							}
+							// config: {
+							// 	path: `${PATHS.src}/js/postcss.config.js`
+							// }
 						}
 					},
 					{
@@ -108,12 +121,21 @@ module.exports = {
 						}
 					}
 				]
+			},
+			// подключение шрифтов
+			{
+				test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+				loader: "file-loader",
+				options: {
+					name: '[name].[ext]'
+				}
 			}
 		]
 	},
 	resolve: {
 		alias: {
 			// фишка для либ, чтоб везде использовать короткий путь
+			'~': 'src',
 			'vue$': 'vue/dist/vue.js',
 		}
 	},
@@ -123,13 +145,17 @@ module.exports = {
 			//chunkFilename: '[id].css'
 		}),
 		new HtmlWebpackPlugin({
-			hash: false,
+			hash: false, // false default
 			template: `${PATHS.src}/index.html`,
-			filename: "index.html"
+			filename: "index.html",
+			// disable/enable automatic inject scripts and styles in html file
+			inject: true
 		}),
 		// копирует статичные файлы из src в dist/assets
 		new CopyWebpackPlugin([
-			{ from: `${PATHS.src}/img`, to: `${PATHS.assets}img` },
+			// читать как { from: `src/assets/img`, to: `dist/assets/img` },
+			{ from: `${PATHS.src}/${PATHS.assets}/img`, to: `${PATHS.assets}img` },
+			{ from: `${PATHS.src}/${PATHS.assets}/fonts`, to: `${PATHS.assets}fonts` },
 			{ from: `${PATHS.src}/static`, to: '' },
 		]),
 		new VueLoaderPlugin(),

@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<h2>Section {{ msg }}</h2>
+		<h2>Async Section {{ msg }}</h2>
 	</section>
 </template>
 
